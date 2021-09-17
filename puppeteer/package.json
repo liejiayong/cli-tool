@@ -11,6 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^10.0.0",
+    "exceljs": "^4.3.0",
+    "html-pdf": "^3.0.1",
+    "pdf-creator-node": "^2.2.4",
+    "phantom-html2pdf": "^4.0.2",
     "puppeteer": "^10.2.0"
   }
 }
