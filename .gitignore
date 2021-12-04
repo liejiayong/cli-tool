@@ -1,0 +1,8 @@
+node_modules
+dist
+cachefile/*
+business-logic
+public/upload
+img
+.env.db
+# build

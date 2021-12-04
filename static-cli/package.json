@@ -1,0 +1,31 @@
+{
+  "name": "static-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./bin/index.js",
+  "export": "./bin/index.js",
+  "type": "module",
+  "bin": {
+    "static": "./bin/index.js"
+  },
+  "scripts": {
+    "test": "node ./bin/index.js"
+  },
+  "files": [
+    "bin",
+    "package.json"
+  ],
+  "keywords": [],
+  "author": "JyLie(809206619@qq.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "chalk": "^5.0.0",
+    "download-git-repo": "^3.0.2",
+    "inquirer": "^8.2.0",
+    "ora": "^6.0.1",
+    "symbols": "^0.0.6"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
