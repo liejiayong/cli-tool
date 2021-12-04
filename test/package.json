@@ -7,7 +7,7 @@
     "tcli": "./index.js"
   },
   "scripts": {
-    "test": "test"
+    "test": "node index.js"
   },
   "type": "module",
   "author": "JyLie",
