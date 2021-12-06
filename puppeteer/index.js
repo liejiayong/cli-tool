@@ -25,9 +25,8 @@ const basePathImg = 'img/level8-2/';
         '--js-flags="--allow-natives-syntax"',
       ],
     });
-    console.log(process.env.DB_USER, process.env.DB_PW);
     const page = (await browser.pages())[0];
-    await page.goto('https://yunqidi.cn/guide');
+    await page.goto(process.env.DB_URL);
     await page.type('#userName', process.env.DB_USER);
     await page.type('#password', process.env.DB_PW);
     await page.mouse.move(1222, 313);
