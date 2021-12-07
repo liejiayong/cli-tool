@@ -2,12 +2,13 @@
 
 import path from 'path';
 import fs from 'fs';
+// import program from './commander.js';
 import question from './question/index.js';
 import download from './download.js';
 
-const VERSION = `0.0.1`;
+// console.log(program.opts());
 
-/* 
+/*
 nodeV12版本需要使用question().then((answer) => {
   console.log(answer);
 });
