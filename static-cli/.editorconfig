@@ -1,0 +1,58 @@
+# editorconfig 使用简明
+#
+# 官方链接：http://editorconfig.org/
+#
+# editorconfig是一个编码风格规范的配置文件，用于告诉编辑器使用配置文件内指定的样式来呈现代码风格。
+#
+# 匹配规则：
+#     从上往下，即先定义的规则优先级比后定义的优先读取，所以。
+#
+#     如果.editorconfig文件没有进行某些配置，则使用编辑器默认的设置。
+#
+# 文件语法：
+#   editorConfig配置文件需要是UTF-8字符集编码的, 以回车换行或换行作为一行的分隔符
+#   斜线(/)被用作为一个路径分隔符，井号(#)或分号(;)被用作于注释. 注释需要与注释符号写在同一行
+#
+#   通配符：
+#     *                匹配除/之外的任意字符串
+#     **               匹配任意字符串
+#     ?                匹配任意单个字符
+#     [name]           匹配name中的任意一个单一字符
+#     [!name]          匹配不存在name中的任意一个单一字符
+#     {s1,s2,s3}       匹配给定的字符串中的任意一个(用逗号分隔)
+#     {num1..num2}     匹配num1到num2之间的任意一个整数, 这里的num1和num2可以为正整数也可以为负整数
+#
+#   属性：
+#     root:         true|false。表示是最顶层的配置文件，发现设为true时，才会停止查找.editorconfig文件。
+#     charset：     utf-8|latin1|utf-8-bom|utf-16be|utf-16le。文件的编码格式。不建议使用uft-8-bom。
+#     indent_style：tab|space。设置缩进风格，tab为硬缩进，space为软缩进。
+#     indent_size： 用一个整数定义的列数来设置缩进的宽度，如果indent_style为tab，则此属性默认为tab_width
+#     tab_width：   用一个整数来设置tab缩进的列数。默认是indent_size，通常不需要指定
+#     end_of_line： lf|cr|crlf。设置换行符。window新建文件默认为crlf，linux默认为lf。
+#     trim_trailing_whitespace：true|false。是否删除换行符之前的空白字符，true为删除。(set to true to remove any whitespace characters preceding newline characters and false to ensure it doesn't.)
+#     insert_final_newline：true|false。是否保存文件时以换行（插入新行）结束，true为换行。(set to true to ensure file ends with a newline when saving and false to ensure it doesn't.)
+#     max_line_length：最大行长度。
+#
+# 实例
+# indent_size = 4 中使用 4 个空格来缩进，
+# 并不是说按一下空格会自动打出 4 个空格来，
+# 也不是说要连按 4 下空格；
+# 而是按 tab 键时，编辑器会自动输出 4 个空格的宽度，而不是之前默认的制表符 (\t)
+#
+root = true
+
+[*]
+# [*.{js,jsx,ts,tsx}]
+charset = utf-8
+indent_style = space
+indent_size = 4
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length = 120
+
+[*.md]
+trim_trailing_whitespace = false
+
+[Makefile]
+indent_style = tab

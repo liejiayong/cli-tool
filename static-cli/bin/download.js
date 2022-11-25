@@ -4,6 +4,7 @@ import ora from 'ora'; /* 进度显示 */
 import symbols from 'log-symbols'; /* 在信息前面加上 √ 或 × 等的图标 */
 
 const repMap = {
+  static: 'static',
   pc: 'pc-tw',
   wap: 'wap-tw',
 };
@@ -13,7 +14,7 @@ export default async (config) => {
   const loading = ora('正在下载...');
   loading.start();
   return new Promise((resolve, reject) => {
-    const url = `direct:https://gitee.com/liejiayong/tw-business-template.git#${repMap[config.tplName]}`,
+    const url = `direct:https://gitee.com/liejiayong/cli-static-template.git#${repMap[config.tplName]}`,
       dest = `${config.dirPath}`;
     download(url, dest, { clone: true }, (err) => {
       if (err) {
