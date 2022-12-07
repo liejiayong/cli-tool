@@ -34,7 +34,7 @@ export function getDirname() {
     console.log("test getAllFile", curPath, getAllFile(curPath));
  */
 export async function getAllFile(basePath) {
-    const orgin = [];
+    const data = [];
 
     async function recursion(basePath) {
         const files = fs.readdirSync(basePath);
@@ -43,7 +43,7 @@ export async function getAllFile(basePath) {
             curPath = path.normalize(curPath).replace(/(\\)/g, "/");
             const stat = fs.statSync(curPath);
             if (stat.isFile()) {
-                orgin.push(curPath);
+                data.push(curPath);
             } else if (stat.isDirectory()) {
                 recursion(curPath);
             }
@@ -51,8 +51,35 @@ export async function getAllFile(basePath) {
     }
 
     recursion(basePath);
-    const _basePath = path.normalize(basePath).replace(/(\\)/g, "/");
-    const raw = orgin.map((url) => url.replace(new RegExp(_basePath, "g"), ""));
 
-    return { orgin, raw };
+    // // get relative path
+    // const _basePath = path.normalize(basePath).replace(/(\\)/g, "/");
+    // const raw = data.map((url) => url.replace(new RegExp(_basePath, "g"), ""));
+
+    return { data, basePath };
+}
+
+/**
+ * @description: 删除文件夹及其下所有文件
+ * @param {*} path 当前路径
+ * @return {void}
+ * @author: liejiayong(809206619@qq.com)
+ * @Date: 2022-12-07 17:59:19
+ */
+export async function delDir(path) {
+    let files = [];
+    if (fs.existsSync(path)) {
+        files = fs.readdirSync(path);
+        files.forEach((file, index) => {
+            let curPath = path + "/" + file;
+            if (fs.statSync(curPath).isDirectory()) {
+                delDir(curPath); //递归删除文件夹
+            } else {
+                fs.unlinkSync(curPath); //删除文件
+            }
+        });
+        fs.rmdirSync(path);
+    }
+
+    return Promise.resolve();
 }

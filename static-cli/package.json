@@ -1,35 +1,41 @@
 {
-  "name": "static-cli",
-  "version": "1.0.0",
-  "description": "",
-  "main": "./bin/index.js",
-  "export": "./bin/index.js",
-  "type": "module",
-  "bin": {
-    "static": "./bin/index.js"
-  },
-  "scripts": {
-    "test": "node ./bin/index.js"
-  },
-  "files": [
-    "bin",
-    "package.json"
-  ],
-  "keywords": [],
-  "author": "JyLie(809206619@qq.com)",
-  "license": "ISC",
-  "devDependencies": {
-    "chalk": "^5.1.2",
-    "commander": "^9.4.1",
-    "download-git-repo": "^3.0.2",
-    "inquirer": "^9.1.4",
-    "ora": "^6.1.2",
-    "symbols": "^0.0.6",
-    "spritesmith": "^3.4.0"
-  },
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "dependencies": {
-  }
+    "name": "static-cli",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./bin/index.js",
+    "export": "./bin/index.js",
+    "type": "module",
+    "bin": {
+        "static": "./bin/index.js"
+    },
+    "scripts": {
+        "static:test": "node ./bin/index.js",
+        "test": "echo test",
+        "install:gyp": "node-pre-gyp install --fallback-to-build"
+    },
+    "files": [
+        "bin",
+        "package.json"
+    ],
+    "keywords": [],
+    "author": "JyLie(809206619@qq.com)",
+    "license": "ISC",
+    "devDependencies": {
+        "chalk": "^5.1.2",
+        "commander": "^9.4.1",
+        "download-git-repo": "^3.0.2",
+        "inquirer": "^9.1.4",
+        "ora": "^6.1.2",
+        "spritesmith": "^3.4.0",
+        "symbols": "^0.0.6"
+    },
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "dependencies": {
+        "pixelsmith": "^2.6.0",
+        "postcss-pxtorem": "^6.0.0",
+        "postcss-scss": "^4.0.6",
+        "through2": "^4.0.2"
+    }
 }
