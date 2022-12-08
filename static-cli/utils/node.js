@@ -7,7 +7,7 @@ import path from "path";
  * returns {boolean} - `true` if the source is blacklisted and otherwise `false`.
  */
 export function isUnixHiddenPath(path) {
-    return /(^|\/)\.[^\/\.]/g.test(path);
+  return /(^|\/)\.[^\/\.]/g.test(path);
 }
 
 /**
@@ -17,7 +17,7 @@ export function isUnixHiddenPath(path) {
  * @Date: 2022-11-23 17:10:48
  */
 export function getDirname() {
-    return path.dirname(url.fileURLToPath(import.meta.url));
+  return path.dirname(url.fileURLToPath(import.meta.url));
 }
 
 /**
@@ -34,29 +34,29 @@ export function getDirname() {
     console.log("test getAllFile", curPath, getAllFile(curPath));
  */
 export async function getAllFile(basePath) {
-    const data = [];
+  const data = [];
 
-    async function recursion(basePath) {
-        const files = fs.readdirSync(basePath);
-        files.forEach((file) => {
-            let curPath = path.join(basePath, file);
-            curPath = path.normalize(curPath).replace(/(\\)/g, "/");
-            const stat = fs.statSync(curPath);
-            if (stat.isFile()) {
-                data.push(curPath);
-            } else if (stat.isDirectory()) {
-                recursion(curPath);
-            }
-        });
-    }
+  async function recursion(basePath) {
+    const files = fs.readdirSync(basePath);
+    files.forEach((file) => {
+      let curPath = path.join(basePath, file);
+      curPath = path.normalize(curPath).replace(/(\\)/g, "/");
+      const stat = fs.statSync(curPath);
+      if (stat.isFile()) {
+        data.push(curPath);
+      } else if (stat.isDirectory()) {
+        recursion(curPath);
+      }
+    });
+  }
 
-    recursion(basePath);
+  recursion(basePath);
 
-    // // get relative path
-    // const _basePath = path.normalize(basePath).replace(/(\\)/g, "/");
-    // const raw = data.map((url) => url.replace(new RegExp(_basePath, "g"), ""));
+  // // get relative path
+  // const _basePath = path.normalize(basePath).replace(/(\\)/g, "/");
+  // const raw = data.map((url) => url.replace(new RegExp(_basePath, "g"), ""));
 
-    return { data, basePath };
+  return { data, basePath };
 }
 
 /**
@@ -67,19 +67,34 @@ export async function getAllFile(basePath) {
  * @Date: 2022-12-07 17:59:19
  */
 export async function delDir(path) {
-    let files = [];
-    if (fs.existsSync(path)) {
-        files = fs.readdirSync(path);
-        files.forEach((file, index) => {
-            let curPath = path + "/" + file;
-            if (fs.statSync(curPath).isDirectory()) {
-                delDir(curPath); //递归删除文件夹
-            } else {
-                fs.unlinkSync(curPath); //删除文件
-            }
-        });
-        fs.rmdirSync(path);
-    }
+  let files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach((file, index) => {
+      let curPath = path + "/" + file;
+      if (fs.statSync(curPath).isDirectory()) {
+        delDir(curPath); //递归删除文件夹
+      } else {
+        fs.unlinkSync(curPath); //删除文件
+      }
+    });
+    fs.rmdirSync(path);
+  }
 
-    return Promise.resolve();
+  return Promise.resolve();
 }
+
+export const copyFileByPath = (fromPath = "", toPath = "") => {
+  const readStream = fs.createReadStream(fromPath);
+  const writeStream = fs.createWriteStream(toPath);
+  readStream.pipe(writeStream);
+};
+export const copyFilesByPath = (files = [], fromPath = "", toPath = "") => {
+  fromPaths.forEach((file) => {
+    const preFile = `${fromPath}${file}`;
+    const nextFile = `${toPath}${file}`;
+    const readStream = fs.createReadStream(preFile);
+    const writeStream = fs.createWriteStream(nextFile);
+    readStream.pipe(writeStream);
+  });
+};
