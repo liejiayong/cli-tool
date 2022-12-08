@@ -6,8 +6,15 @@ const CONFIG = {
     templatePath: "__template__",
     baseURL: "./",
     spriteBaseURL: "./",
+    css: {
+        outputPath: "css/",
+        spriteName: "sprite",
+        ext: ".css",
+    },
     // 单独 与 雪碧图
     images: {
+        ext: "jpg,jpeg,png,gif",
+        cssUnit: "px",
         inputPath: "images",
         outputPath: `img/`,
         padding: 60,

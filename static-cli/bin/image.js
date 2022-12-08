@@ -19,23 +19,32 @@ export default function initImage(program) {
             const url = path.join(process.cwd(), CONFIG.spriteBaseURL, CONFIG.images.inputPath);
             const images = await utils.getAllFile(url);
             const imgMaper = MediaUtils.getImgByDir(images.data);
-            console.log("all images: ", file, images, __dirname, imgMaper);
+            // console.log("all images: ", file, images, __dirname, imgMaper);
 
             // 设置运行时变量
             CONFIG["commander"] = file;
             CONFIG["imgMapper"] = imgMaper;
 
+            const genMap = {
+                uni: {},
+                sprite: [],
+            };
             for (let key in imgMaper) {
                 switch (key) {
                     case CONFIG.images.uniName.base:
-                        // const uniData = await MediaGen.genUnique(imgMaper[key], key);
+                        console.log(CONFIG.images.uniName.base, key);
+                        const uniData = await MediaGen.getImageData(imgMaper[key], key);
+                        genMap.uni = uniData;
                         break;
 
                     default:
-                        console.log("key", key, imgMaper[key]);
-                        const spriteData = await MediaGen.genUnique(imgMaper[key], key);
+                        const spriteData = await MediaGen.getSpriteData(imgMaper[key], key);
+                        genMap.sprite = [...genMap.sprite, spriteData];
                         break;
                 }
             }
+
+            MediaGen.genCssAndFs(genMap.sprite, genMap.uni);
+            // console.log("genMap", genMap);
         });
 }

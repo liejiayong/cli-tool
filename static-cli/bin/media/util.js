@@ -4,7 +4,7 @@ export const getImgByDir = (data = [], flag) => {
     const spReg = new RegExp(
         `\\/${CONFIG.images.inputPath}\\/${CONFIG.images.spriteDir.prefix}${CONFIG.images.spriteDir.symbol}{0,1}(\\w*)\\/.+$`
     );
-    console.log("spReg", spReg);
+    // console.log("spReg", spReg);
     const ret = data.reduce(
         (m, pre) => {
             const spFlag = pre.match(spReg);
@@ -13,6 +13,8 @@ export const getImgByDir = (data = [], flag) => {
 
                 !m[spName] && (m[spName] = []);
                 m[spName].push(pre);
+
+                return m;
             }
 
             m[CONFIG.images.spriteDir.uniqueName].push(pre);
