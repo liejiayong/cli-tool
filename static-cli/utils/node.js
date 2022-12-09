@@ -1,6 +1,6 @@
 import fs from "fs";
 import url from "url";
-import path from "path";
+import path, { dirname } from "path";
 import toAwait from "./await.js";
 /**
  * Checks whether a path starts with or contains a hidden file or a folder.
@@ -87,7 +87,7 @@ export async function delDir(path) {
 
 /**
  * @description: 创建文件夹
- * 在 node.js > 10.x 版本后使用，支持recursive递归创建文件夹
+ * 在 node.js > 10.14.1 版本后使用，支持recursive递归创建文件夹
  * @param {string} path 文件夹路径
  * @return {Promise}
  * @author: liejiayong(809206619@qq.com)
@@ -95,6 +95,27 @@ export async function delDir(path) {
  */
 export function mkDir(path) {
     return fs.promises.mkdir(path, { recursive: true });
+}
+
+/**
+ * @description: 递归创建文件夹
+ * 在 node.js < 10.14.1 的低版本后使用
+ * @param {*} dirPath
+ * @param {*} callback
+ * @return {*}
+ * @author: liejiayong(809206619@qq.com)
+ * @Date: 2022-12-09 10:23:38
+ */
+export function mkDirPrev(dirPath, callback) {
+    fs.exists(dirPath, function (exists) {
+        if (exists) {
+            callback();
+        } else {
+            mkDirPrev(path.dirname(dirPath), function () {
+                fs.mkdir(dirPath, callback);
+            });
+        }
+    });
 }
 
 /**
