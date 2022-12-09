@@ -22,9 +22,9 @@ const CONFIG = {
             prefix: "sp",
             suffix: "",
             symbol: "_",
-            base: "n" + __count__ /* 图片集合分类时，雪碧图文件夹匹配 new RegExp(
-                                    `\\/${CONFIG.images.inputPath}\\/${CONFIG.images.spriteDir.prefix}${CONFIG.images.spriteDir.symbol}(\\w*)\\/.+$`
-                                ) 为空时的预设名称*/,
+            /* 图片集合分类时，雪碧图文件夹匹配 new RegExp(`\\/${CONFIG.images.inputPath}\\/${CONFIG.images.spriteDir.prefix}${CONFIG.images.spriteDir.symbol}(\\w*)\\/.+$`)
+            为空时的预设名称*/
+            base: "n" + __count__,
             uniqueName: "uni" /* 单独图片名称 */,
         },
         uniName: {
@@ -40,6 +40,17 @@ const CONFIG = {
             symbol: "_",
         },
     },
+    postcss: {
+        rootValue: 75,
+        unitPrecision: 2,
+        propList: [],
+        selectorBlackList: [],
+        replace: true,
+        mediaQuery: false,
+        minPixelValue: 0,
+        exclude: /node_modules/i,
+    },
+    __self__: true,
 };
 
 export default CONFIG;

@@ -140,3 +140,13 @@ export async function copyFileByPath(fromPath = "", toPath = "") {
     const writeStream = fs.createWriteStream(toPath);
     readStream.pipe(writeStream);
 }
+
+/**
+ * @description: 判断操作系统
+ * @return {string}
+ * @author: liejiayong(809206619@qq.com)
+ * @Date: 2022-12-09 17:56:13
+ */
+export function isWindow() {
+    return process.platform === "win32";
+}

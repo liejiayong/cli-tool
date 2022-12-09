@@ -6,10 +6,10 @@
     "export": "./bin/index.js",
     "type": "module",
     "bin": {
-        "static": "./bin/index.js"
+        "static": "node --experimental-modules ./bin/index.js"
     },
     "scripts": {
-        "static:test": "node ./bin/index.js",
+        "static:test": "node --experimental-modules ./bin/index.js",
         "test": "echo test",
         "install:gyp": "node-pre-gyp install --fallback-to-build"
     },
@@ -26,6 +26,7 @@
         "download-git-repo": "^3.0.2",
         "inquirer": "^9.1.4",
         "ora": "^6.1.2",
+        "postcss": "^8.4.19",
         "spritesmith": "^3.4.0",
         "symbols": "^0.0.6"
     },
@@ -33,6 +34,7 @@
         "node": ">=14.0.0"
     },
     "dependencies": {
+        "normalize-path": "^3.0.0",
         "pixelsmith": "^2.6.0",
         "postcss-pxtorem": "^6.0.0",
         "postcss-scss": "^4.0.6",
