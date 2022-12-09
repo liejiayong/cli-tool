@@ -1,4 +1,4 @@
-export const toAwait = (promise, errorExt) => {
+export default (promise, errorExt) => {
     return promise
         .then((data) => [null, data])
         .catch((err) => {
