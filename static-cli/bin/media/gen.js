@@ -62,8 +62,8 @@ export const getImageData = async (src, key = "", opts = {}) => {
                     imagePath: `${imgOutputPath}${key}.png`,
                     imageBuffer: result.image,
                     cssDirPath: cssOutputPath,
-                    cssPath: `${cssOutputPath}${cssMap.name}.${CONFIG.css.ext}`,
-                    cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}.${CONFIG.css.ext}`,
+                    cssPath: `${cssOutputPath}${cssMap.name}${CONFIG.css.ext}`,
+                    cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
                     cssBuffer: cssMap.json,
                     raw: result,
                     sprites: imageStatus,
@@ -116,8 +116,8 @@ export const getSpriteData = async (src, key = "", opts = {}) => {
                     imagePath: `${imgOutputPath}${key}.png`,
                     imageBuffer: result.image,
                     cssDirPath: cssOutputPath,
-                    cssPath: `${cssOutputPath}${cssMap.name}.${CONFIG.css.ext}`,
-                    cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}.${CONFIG.css.ext}`,
+                    cssPath: `${cssOutputPath}${cssMap.name}${CONFIG.css.ext}`,
+                    cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
                     cssBuffer: cssMap.json,
                     raw: result,
                     sprites: imageStatus.sprites,
@@ -137,7 +137,7 @@ export const getCssPath = () => {
     const cssOutputPath = path.join(CONFIG.commander.input, CONFIG.css.outputPath);
     return {
         cssDirPath: cssOutputPath,
-        cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}.${CONFIG.css.ext}`,
+        cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
     };
 };
 

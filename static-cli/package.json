@@ -5,11 +5,12 @@
     "main": "./bin/index.js",
     "export": "./bin/index.js",
     "type": "module",
+    "perferGlobal": true,
     "bin": {
-        "static": "node --experimental-modules ./bin/index.js"
+        "static": "node ./bin/index.js"
     },
     "scripts": {
-        "static:test": "node --experimental-modules ./bin/index.js",
+        "static:test": "node ./bin/index.js",
         "test": "echo test",
         "install:gyp": "node-pre-gyp install --fallback-to-build"
     },

@@ -52,6 +52,7 @@ export default function initImage(program) {
                 }
             }
 
+            // output sprite files
             MediaGen.genCssAndFs(genMap.sprite, genMap.uni);
         });
 }

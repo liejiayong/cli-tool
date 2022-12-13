@@ -1,3 +1,4 @@
+#!/usr/bin/env node --experimental-modules
 import fs from "fs";
 import path from "path";
 import url from "url";
@@ -12,10 +13,20 @@ const cwdPath = path.join(process.cwd(), "./static.js");
 if (fs.existsSync(cwdPath)) {
     let abPath = normalize(cwdPath);
     abPath = nodeUtils.isWindow() ? `file:///${abPath}` : abPath;
-    console.log("cwdPath", cwdPath, abPath);
-    const json = await import(abPath).then((module) => module.default);
+    let json = "";
+
+    try {
+        // node modules
+        json = require(abPath);
+    } catch (error) {
+        // es modules
+        json = await import(abPath).then((module) => module.default);
+    }
+
+    // console.log("cwdPath", cwdPath, abPath, json);
     !json.__self__ && deepExtend(CONFIG, json);
 }
-console.log("CONFIG data", CONFIG);
+
+// console.log("CONFIG data", CONFIG);
 
 export default CONFIG;
