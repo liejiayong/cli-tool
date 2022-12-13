@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --experimental-modules
 
 /**
  * @author: liejiayong(809206619@qq.com)
@@ -8,22 +8,22 @@
  * node@>12支持全局async函数
  */
 
-import path from 'path';
-import fs from 'fs';
-import { Command } from 'commander';
+import path from "path";
+import fs from "fs";
+import { Command } from "commander";
 
-import initImage from './image.js'
+import initImage from "./image.js";
 // import program from './commander.js';
 // import question from './question/index.js';
 // import download from './download.js';
 
-const program = new Command()
+const program = new Command();
 
-program.version
+program.version;
 
-initImage(program)
+initImage(program);
 
-program.parse(process.argv)
+program.parse(process.argv);
 
 // console.log(program.opts());
 /*
