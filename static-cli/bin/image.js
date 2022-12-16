@@ -1,9 +1,13 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import chalk from "chalk";
+import ora from "ora";
+import symbols from "log-symbols";
 import * as nodeUtils from "../utils/node.js";
 import * as MediaUtils from "./media/util.js";
 import * as MediaGen from "./media/gen.js";
+import * as CompressUtils from "./media/compress.js";
 import CONFIG from "./config.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -15,6 +19,9 @@ export default function initImage(program) {
         .option("-t, --terminal <string>", "获取图片集信息", "pc")
         .option("-c, --clear", "清空文件夹", false)
         .action(async (file, commander) => {
+            console.log(symbols.info, chalk.green("创建图片生成模块..."));
+            const loading = ora("正在创建...");
+            loading.start();
             CONFIG["commander"] = file;
 
             // reset directory
@@ -53,6 +60,13 @@ export default function initImage(program) {
             }
 
             // output sprite files
-            MediaGen.genCssAndFs(genMap.sprite, genMap.uni);
+            await MediaGen.genCssAndFs(genMap.sprite, genMap.uni);
+
+            const loadMinify = ora("正在压缩图片");
+            await CompressUtils.imageMinify(MediaGen.getCssPath().cssOutputPath);
+            loadMinify.succeed();
+
+            loading.succeed();
+            console.log(symbols.success, chalk.green("创建图片雪碧图成功"));
         });
 }
