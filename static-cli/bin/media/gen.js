@@ -6,13 +6,13 @@ import * as mediaTpl from "./template.js";
 import CONFIG from "../config.js";
 
 const getDefaultParams = () => {
-    return { padding: CONFIG.images.padding };
+  return { padding: CONFIG.images.padding };
 };
 
 class MediaController {
-    constructor() {
-        this.Spritesmith = Spritesmith;
-    }
+  constructor() {
+    this.Spritesmith = Spritesmith;
+  }
 }
 
 export default MediaController;
@@ -27,50 +27,50 @@ export default MediaController;
  * @Date: 2022-12-09 15:43:56
  */
 export const getImageData = async (src, key = "", opts = {}) => {
-    // console.log("getSpriteData", src.length, key, opts);
-    const params = Object.assign(getDefaultParams(), opts);
+  // console.log("getSpriteData", src.length, key, opts);
+  const params = Object.assign(getDefaultParams(), opts);
 
-    const imgOutputPath = path.join(CONFIG.commander.input, CONFIG.images.outputPath);
-    const cssOutputPath = path.join(CONFIG.commander.input, CONFIG.css.outputPath);
+  const imgOutputPath = path.join(CONFIG.commander.input, CONFIG.images.outputPath);
+  const cssOutputPath = path.join(CONFIG.commander.input, CONFIG.css.outputPath);
 
-    return new Promise((resolve, reject) => {
-        Spritesmith.run(
-            {
-                src,
-                ...params,
-            },
-            function handleResult(err, result) {
-                if (err) {
-                    return reject(err);
-                }
+  return new Promise((resolve, reject) => {
+    Spritesmith.run(
+      {
+        src,
+        ...params,
+      },
+      function handleResult(err, result) {
+        if (err) {
+          return reject(err);
+        }
 
-                // get sprites coordinates
-                const imageStatus = mediaTpl.normalizeImg(result.coordinates, {
-                    ...result.properties,
-                    spriteName: "",
-                    spriteNameRaw: "",
-                    isSprite: false,
-                });
+        // get sprites coordinates
+        const imageStatus = mediaTpl.normalizeImg(result.coordinates, {
+          ...result.properties,
+          spriteName: "",
+          spriteNameRaw: "",
+          isSprite: false,
+        });
 
-                // console.log("imageStatus", imageStatus);
+        // console.log("imageStatus", imageStatus);
 
-                // output css coordinates JSON
-                const cssMap = mediaTpl.getUniCssJSON(imageStatus);
+        // output css coordinates JSON
+        const cssMap = mediaTpl.getUniCssJSON(imageStatus);
 
-                return resolve({
-                    imageDirPath: imgOutputPath,
-                    imagePath: `${imgOutputPath}${key}.png`,
-                    imageBuffer: result.image,
-                    cssDirPath: cssOutputPath,
-                    cssPath: `${cssOutputPath}${cssMap.name}${CONFIG.css.ext}`,
-                    cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
-                    cssBuffer: cssMap.json,
-                    raw: result,
-                    sprites: imageStatus,
-                });
-            }
-        );
-    });
+        return resolve({
+          imageDirPath: imgOutputPath,
+          imagePath: `${imgOutputPath}${key}.png`,
+          imageBuffer: result.image,
+          cssDirPath: cssOutputPath,
+          cssPath: `${cssOutputPath}${cssMap.name}${CONFIG.css.ext}`,
+          cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
+          cssBuffer: cssMap.json,
+          raw: result,
+          sprites: imageStatus,
+        });
+      }
+    );
+  });
 };
 
 /**
@@ -83,48 +83,48 @@ export const getImageData = async (src, key = "", opts = {}) => {
  * @Date: 2022-12-09 15:43:56
  */
 export const getSpriteData = async (src, key = "", opts = {}) => {
-    // console.log("getSpriteData", src.length, key, opts);
-    const params = Object.assign(getDefaultParams(), opts);
+  // console.log("getSpriteData", src.length, key, opts);
+  const params = Object.assign(getDefaultParams(), opts);
 
-    const imgOutputPath = path.join(CONFIG.commander.input, CONFIG.images.outputPath);
-    const cssOutputPath = path.join(CONFIG.commander.input, CONFIG.css.outputPath);
+  const imgOutputPath = path.join(CONFIG.commander.input, CONFIG.images.outputPath);
+  const cssOutputPath = path.join(CONFIG.commander.input, CONFIG.css.outputPath);
 
-    return new Promise((resolve, reject) => {
-        Spritesmith.run(
-            {
-                src,
-                ...params,
-            },
-            function handleResult(err, result) {
-                if (err) {
-                    return reject(err);
-                }
+  return new Promise((resolve, reject) => {
+    Spritesmith.run(
+      {
+        src,
+        ...params,
+      },
+      function handleResult(err, result) {
+        if (err) {
+          return reject(err);
+        }
 
-                // get sprites coordinates
-                const imageStatus = mediaTpl.normalizeImg(result.coordinates, {
-                    ...result.properties,
-                    spriteName: `${CONFIG.images.spriteDir.prefix}${CONFIG.images.spriteDir.symbol}${key}`,
-                    spriteNameRaw: key,
-                    isSprite: true,
-                });
+        // get sprites coordinates
+        const imageStatus = mediaTpl.normalizeImg(result.coordinates, {
+          ...result.properties,
+          spriteName: `${CONFIG.images.spriteDir.prefix}${CONFIG.images.spriteDir.symbol}${key}`,
+          spriteNameRaw: key,
+          isSprite: true,
+        });
 
-                // output css coordinates JSON
-                const cssMap = mediaTpl.getSpriteCssJSON(imageStatus);
+        // output css coordinates JSON
+        const cssMap = mediaTpl.getSpriteCssJSON(imageStatus);
 
-                return resolve({
-                    imageDirPath: imgOutputPath,
-                    imagePath: `${imgOutputPath}${key}.png`,
-                    imageBuffer: result.image,
-                    cssDirPath: cssOutputPath,
-                    cssPath: `${cssOutputPath}${cssMap.name}${CONFIG.css.ext}`,
-                    cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
-                    cssBuffer: cssMap.json,
-                    raw: result,
-                    sprites: imageStatus.sprites,
-                });
-            }
-        );
-    });
+        return resolve({
+          imageDirPath: imgOutputPath,
+          imagePath: `${imgOutputPath}${key}.png`,
+          imageBuffer: result.image,
+          cssDirPath: cssOutputPath,
+          cssPath: `${cssOutputPath}${cssMap.name}${CONFIG.css.ext}`,
+          cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
+          cssBuffer: cssMap.json,
+          raw: result,
+          sprites: imageStatus.sprites,
+        });
+      }
+    );
+  });
 };
 
 /**
@@ -134,11 +134,11 @@ export const getSpriteData = async (src, key = "", opts = {}) => {
  * @Date: 2022-12-09 15:46:27
  */
 export const getCssPath = () => {
-    const cssOutputPath = path.join(CONFIG.commander.input, CONFIG.css.outputPath);
-    return {
-        cssDirPath: cssOutputPath,
-        cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
-    };
+  const cssOutputPath = path.join(CONFIG.commander.input, CONFIG.css.outputPath);
+  return {
+    cssDirPath: cssOutputPath,
+    cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
+  };
 };
 
 /**
@@ -150,10 +150,11 @@ export const getCssPath = () => {
 export const getImagePath = () => path.join(CONFIG.commander.input, CONFIG.images.outputPath);
 
 export const resetDir = async () => {
-    const imgDir = getImagePath();
-    const cssDir = getCssPath().cssDirPath;
-    await nodeUtils.delDir(imgDir);
-    await nodeUtils.delDir(cssDir);
+  const imgDir = getImagePath();
+  const cssDir = getCssPath().cssDirPath;
+  await nodeUtils.delDir(imgDir);
+  await nodeUtils.delDir(cssDir);
+  return Promise.resolve();
 };
 
 /**
@@ -165,29 +166,31 @@ export const resetDir = async () => {
  * @Date: 2022-12-09 15:47:31
  */
 export const genCssAndFs = async (spriteResult = [], uniResult = {}) => {
-    // concat all sprite css json
-    let cssJson = spriteResult.reduce((str, pre) => {
-        return str + pre.cssBuffer;
-    }, "");
+  // concat all sprite css json
+  let cssJson = spriteResult.reduce((str, pre) => {
+    return str + pre.cssBuffer;
+  }, "");
 
-    // concat all unique image css json
-    cssJson += uniResult.cssBuffer;
+  // concat all unique image css json
+  cssJson += uniResult.cssBuffer;
 
-    // output css json
-    const cssPath = getCssPath();
-    await nodeUtils.mkDir(cssPath.cssDirPath);
-    fs.writeFileSync(`${cssPath.cssOutputPath}`, cssJson);
+  // output css json
+  const cssPath = getCssPath();
+  await nodeUtils.mkDir(cssPath.cssDirPath);
+  fs.writeFileSync(`${cssPath.cssOutputPath}`, cssJson);
+  // output unique images file to dest
+  uniResult.sprites &&
+    uniResult.sprites.forEach((v) => {
+      const file = v.filePath.slice(CONFIG._basePath_.inputDir.length, v.filePath.length);
+      const outputPath = path.join(CONFIG._basePath_.outputImageDir, file);
+      //   console.log("file", file, outputPath);
+      nodeUtils.copyFileByPath(v.filePath, outputPath);
+    });
 
-    // output unique images file to dest
-    uniResult.sprites &&
-        uniResult.sprites.forEach((v) => {
-            nodeUtils.copyFileByPath(v.filePath, v.outputPath);
-        });
-
-    // output sprite image to dest
-    for (let sprite of spriteResult) {
-        // !fs.existsSync(sprite.imageDirPath) && fs.mkdirSync(sprite.imageDirPath);
-        await nodeUtils.mkDir(sprite.imageDirPath);
-        fs.writeFileSync(sprite.imagePath, sprite.imageBuffer);
-    }
+  // output sprite image to dest
+  for (let sprite of spriteResult) {
+    // !fs.existsSync(sprite.imageDirPath) && fs.mkdirSync(sprite.imageDirPath);
+    await nodeUtils.mkDir(sprite.imageDirPath);
+    fs.writeFileSync(sprite.imagePath, sprite.imageBuffer);
+  }
 };

@@ -8,7 +8,7 @@ import toAwait from "./await.js";
  * returns {boolean} - `true` if the source is blacklisted and otherwise `false`.
  */
 export function isUnixHiddenPath(path) {
-    return /(^|\/)\.[^\/\.]/g.test(path);
+  return /(^|\/)\.[^\/\.]/g.test(path);
 }
 
 /**
@@ -18,7 +18,7 @@ export function isUnixHiddenPath(path) {
  * @Date: 2022-11-23 17:10:48
  */
 export function getDirname() {
-    return path.dirname(url.fileURLToPath(import.meta.url));
+  return path.dirname(url.fileURLToPath(import.meta.url));
 }
 
 /**
@@ -35,29 +35,29 @@ export function getDirname() {
     console.log("test getAllFile", curPath, getAllFile(curPath));
  */
 export async function getAllFile(basePath) {
-    const data = [];
+  const data = [];
 
-    async function recursion(basePath) {
-        const files = fs.readdirSync(basePath);
-        files.forEach((file) => {
-            let curPath = path.join(basePath, file);
-            curPath = path.normalize(curPath).replace(/(\\)/g, "/");
-            const stat = fs.statSync(curPath);
-            if (stat.isFile()) {
-                data.push(curPath);
-            } else if (stat.isDirectory()) {
-                recursion(curPath);
-            }
-        });
-    }
+  async function recursion(basePath) {
+    const files = fs.readdirSync(basePath);
+    files.forEach((file) => {
+      let curPath = path.join(basePath, file);
+      curPath = path.normalize(curPath).replace(/(\\)/g, "/");
+      const stat = fs.statSync(curPath);
+      if (stat.isFile()) {
+        data.push(curPath);
+      } else if (stat.isDirectory()) {
+        recursion(curPath);
+      }
+    });
+  }
 
-    recursion(basePath);
+  recursion(basePath);
 
-    // // get relative path
-    // const _basePath = path.normalize(basePath).replace(/(\\)/g, "/");
-    // const raw = data.map((url) => url.replace(new RegExp(_basePath, "g"), ""));
+  // // get relative path
+  // const _basePath = path.normalize(basePath).replace(/(\\)/g, "/");
+  // const raw = data.map((url) => url.replace(new RegExp(_basePath, "g"), ""));
 
-    return { data, basePath };
+  return { data, basePath };
 }
 
 /**
@@ -68,21 +68,21 @@ export async function getAllFile(basePath) {
  * @Date: 2022-12-07 17:59:19
  */
 export async function delDir(path) {
-    let files = [];
-    if (fs.existsSync(path)) {
-        files = fs.readdirSync(path);
-        files.forEach((file, index) => {
-            let curPath = path + "/" + file;
-            if (fs.statSync(curPath).isDirectory()) {
-                delDir(curPath); //递归删除文件夹
-            } else {
-                fs.unlinkSync(curPath); //删除文件
-            }
-        });
-        fs.rmdirSync(path);
-    }
+  let files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach((file, index) => {
+      let curPath = path + "/" + file;
+      if (fs.statSync(curPath).isDirectory()) {
+        delDir(curPath); //递归删除文件夹
+      } else {
+        fs.unlinkSync(curPath); //删除文件
+      }
+    });
+    fs.rmdirSync(path);
+  }
 
-    return Promise.resolve();
+  return Promise.resolve();
 }
 
 /**
@@ -94,7 +94,7 @@ export async function delDir(path) {
  * @Date: 2022-12-09 10:14:57
  */
 export function mkDir(path) {
-    return fs.promises.mkdir(path, { recursive: true });
+  return fs.promises.mkdir(path, { recursive: true });
 }
 
 /**
@@ -107,15 +107,15 @@ export function mkDir(path) {
  * @Date: 2022-12-09 10:23:38
  */
 export function mkDirPrev(dirPath, callback) {
-    fs.exists(dirPath, function (exists) {
-        if (exists) {
-            callback();
-        } else {
-            mkDirPrev(path.dirname(dirPath), function () {
-                fs.mkdir(dirPath, callback);
-            });
-        }
-    });
+  fs.exists(dirPath, function (exists) {
+    if (exists) {
+      callback();
+    } else {
+      mkDirPrev(path.dirname(dirPath), function () {
+        fs.mkdir(dirPath, callback);
+      });
+    }
+  });
 }
 
 /**
@@ -127,18 +127,18 @@ export function mkDirPrev(dirPath, callback) {
  * @Date: 2022-12-09 10:13:44
  */
 export async function copyFileByPath(fromPath = "", toPath = "") {
-    const dirPath = toPath.replace(/[-_a-zA-Z0-9]+\.\w+/, "");
+  const dirPath = toPath.replace(/[-_a-zA-Z0-9]+\.\w+/, "");
 
-    // check toPath exists
-    const [mkErr] = await toAwait(mkDir(dirPath));
-    if (mkErr) {
-        console.error(`mkDir Error: the path is ${toPath}`);
-        return;
-    }
+  // check toPath exists
+  const [mkErr] = await toAwait(mkDir(dirPath));
+  if (mkErr) {
+    console.error(`mkDir Error: the path is ${toPath}`);
+    return;
+  }
 
-    const readStream = fs.createReadStream(fromPath);
-    const writeStream = fs.createWriteStream(toPath);
-    readStream.pipe(writeStream);
+  const readStream = fs.createReadStream(fromPath);
+  const writeStream = fs.createWriteStream(toPath);
+  readStream.pipe(writeStream);
 }
 
 /**
@@ -148,5 +148,19 @@ export async function copyFileByPath(fromPath = "", toPath = "") {
  * @Date: 2022-12-09 17:56:13
  */
 export function isWindow() {
-    return process.platform === "win32";
+  return process.platform === "win32";
+}
+
+/**
+ * 获取文件实际路径
+ * @param {string} path 传入路径
+ * @returns
+ */
+export function getCurPath(_path = "") {
+  if (path.isAbsolute(_path)) {
+    _path = path.relative(process.cwd(), _path);
+  } else {
+    _path = path.join(process.cwd(), _path);
+  }
+  return _path;
 }
