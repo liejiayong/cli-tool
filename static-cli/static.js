@@ -19,7 +19,7 @@ const CONFIG = {
     outputPath: `img/`,
     padding: 60,
     quality: [0.7, 0.8],
-    compressExt: "jpeg,jpg,png",
+    compressExt: "png" /* jpeg,jpg,png */,
     spriteDir: {
       prefix: "sp",
       suffix: "",

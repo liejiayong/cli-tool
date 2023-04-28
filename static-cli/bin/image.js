@@ -63,12 +63,14 @@ export default function initImage(program) {
 
       // output sprite files
       await MediaGen.genCssAndFs(genMap.sprite, genMap.uni);
-      loading.succeed();
-
-      const loadMinify = ora("正在压缩图片");
-      await CompressUtils.imageMinify();
-      loadMinify.succeed();
+      loading.succeed("图片模块完成");
 
       console.log(symbols.success, chalk.green("创建图片雪碧图成功"));
+
+      setTimeout(() => {
+        const loadMinify = ora("正在压缩图片");
+        CompressUtils.imageMinify();
+        loadMinify.succeed("压缩图片完成");
+      }, 0);
     });
 }

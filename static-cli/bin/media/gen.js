@@ -179,13 +179,14 @@ export const genCssAndFs = async (spriteResult = [], uniResult = {}) => {
   await nodeUtils.mkDir(cssPath.cssDirPath);
   fs.writeFileSync(`${cssPath.cssOutputPath}`, cssJson);
   // output unique images file to dest
-  uniResult.sprites &&
-    uniResult.sprites.forEach((v) => {
-      const file = v.filePath.slice(CONFIG._basePath_.inputDir.length, v.filePath.length);
-      const outputPath = path.join(CONFIG._basePath_.outputImageDir, file);
-      //   console.log("file", file, outputPath);
-      nodeUtils.copyFileByPath(v.filePath, outputPath);
-    });
+  for (let v of uniResult.sprites) {
+    const file = v.filePath.slice(CONFIG._basePath_.inputDir.length, v.filePath.length);
+    const outputPath = path.join(CONFIG._basePath_.outputImageDir, file);
+
+    // nodeUtils.copyFileByPath(v.filePath, outputPath);
+    await nodeUtils.mkDir(path.parse(outputPath).dir);
+    fs.copyFileSync(v.filePath, outputPath);
+  }
 
   // output sprite image to dest
   for (let sprite of spriteResult) {

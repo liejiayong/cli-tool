@@ -35,23 +35,25 @@ export function getDirname() {
     console.log("test getAllFile", curPath, getAllFile(curPath));
  */
 export async function getAllFile(basePath) {
-  const data = [];
-
-  async function recursion(basePath) {
-    const files = fs.readdirSync(basePath);
-    files.forEach((file) => {
-      let curPath = path.join(basePath, file);
-      curPath = path.normalize(curPath).replace(/(\\)/g, "/");
-      const stat = fs.statSync(curPath);
-      if (stat.isFile()) {
-        data.push(curPath);
-      } else if (stat.isDirectory()) {
-        recursion(curPath);
+    const data = [];
+    
+  if (fs.existsSync(basePath)) {
+      async function recursion(basePath) {
+        const files = fs.readdirSync(basePath);
+        files.forEach((file) => {
+          let curPath = path.join(basePath, file);
+          curPath = path.normalize(curPath).replace(/(\\)/g, "/");
+          const stat = fs.statSync(curPath);
+          if (stat.isFile()) {
+            data.push(curPath);
+          } else if (stat.isDirectory()) {
+            recursion(curPath);
+          }
+        });
       }
-    });
-  }
 
-  recursion(basePath);
+      await recursion(basePath);
+  }
 
   // // get relative path
   // const _basePath = path.normalize(basePath).replace(/(\\)/g, "/");

@@ -10,8 +10,10 @@
 
 import path from "path";
 import fs from "fs";
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+const pkg = require("../package.json");
 import { Command } from "commander";
-
 import initImage from "./image.js";
 // import program from './commander.js';
 // import question from './question/index.js';
@@ -19,7 +21,7 @@ import initImage from "./image.js";
 
 const program = new Command();
 
-program.version;
+program.version(`${pkg.name} v${pkg.version}`, "-v, --version");
 
 initImage(program);
 
