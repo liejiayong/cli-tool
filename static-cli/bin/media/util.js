@@ -10,9 +10,9 @@ import CONFIG from "../config.js";
  */
 export const getImgByDir = (data = []) => {
   const spReg = new RegExp(
-    `\\/${CONFIG.images.inputPath}\\/${CONFIG.images.spriteDir.prefix}${CONFIG.images.spriteDir.symbol}{0,1}(\\w*)\\/.+$`
+    `\\/${CONFIG.images.spriteDir.prefix}${CONFIG.images.spriteDir.symbol}(\\w*)(${CONFIG.images.spriteDir.symbol}${CONFIG.images.spriteDir.suffix}){0,1}\\/.+$`
   );
-  // console.log("spReg", spReg);
+//   console.log("spReg", spReg, data);
   const ret = data.reduce(
     (m, pre) => {
       const spFlag = pre.match(spReg);
@@ -37,18 +37,35 @@ export const getImgByDir = (data = []) => {
 
 /**
  * 初始化CONFIG文件参数
- * @param {object} commander
+ * @param {string} inputPath
  */
-export const initBaseParams = (commander) => {
+export const initBaseParams = (input) => {
   const cwd = process.cwd();
-  const isAbsolute = path.isAbsolute(commander.input);
+  const inputPath = path.join(input.input, '/')
+  const isAbsolute = path.isAbsolute(inputPath);
   const inputDir = isAbsolute
-    ? commander.input
-    : commander.input.length
-    ? path.join(cwd, commander.input)
+    ? inputPath
+    : inputPath.length
+    ? path.join(cwd, inputPath)
     : path.join(cwd, CONFIG.spriteBaseURL, CONFIG.images.inputPath);
   const outputCssDir = path.join(isAbsolute ? inputDir : cwd, CONFIG.css.outputPath);
   const outputImageDir = path.join(isAbsolute ? inputDir : cwd, CONFIG.images.outputPath);
+
+  const INITIAL = { cwd, inputDir, outputCssDir, outputImageDir, isAbsolute };
+//   console.log(INITIAL)
+  CONFIG["_basePath_"] = INITIAL;
+};
+
+export const initCompressPath = (inputPath) => {
+  const cwd = process.cwd();
+  const isAbsolute = path.isAbsolute(inputPath);
+  const inputDir = isAbsolute
+    ? inputPath
+    : inputPath.length
+    ? path.join(cwd, inputPath)
+    : path.join(cwd, CONFIG.spriteBaseURL, CONFIG.images.inputPath);
+  const outputCssDir = isAbsolute ? inputDir : path.join(cwd, CONFIG.css.outputPath);
+  const outputImageDir = isAbsolute ? inputDir : path.join(cwd, CONFIG.images.outputPath);
 
   const INITIAL = { cwd, inputDir, outputCssDir, outputImageDir };
   CONFIG["_basePath_"] = INITIAL;

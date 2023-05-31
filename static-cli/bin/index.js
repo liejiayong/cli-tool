@@ -15,6 +15,7 @@ const require = createRequire(import.meta.url);
 const pkg = require("../package.json");
 import { Command } from "commander";
 import initImage from "./image.js";
+import initCompress from "./compress.js";
 // import program from './commander.js';
 // import question from './question/index.js';
 // import download from './download.js';
@@ -24,6 +25,7 @@ const program = new Command();
 program.version(`${pkg.name} v${pkg.version}`, "-v, --version");
 
 initImage(program);
+initCompress(program);
 
 program.parse(process.argv);
 

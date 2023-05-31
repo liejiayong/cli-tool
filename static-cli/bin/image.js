@@ -35,7 +35,7 @@ export default function initImage(program) {
       MediaUtils.initBaseParams(file);
 
       // 获取需要处理的图片目录
-      const images = await nodeUtils.getAllFile(CONFIG._basePath_.inputDir);
+      const images = await nodeUtils.getAllFile(CONFIG._basePath_.inputDir, CONFIG.images.ext);
       const imgMaper = MediaUtils.getImgByDir(images.data);
 
       // 设置运行时变量
@@ -67,10 +67,10 @@ export default function initImage(program) {
 
       console.log(symbols.success, chalk.green("创建图片雪碧图成功"));
 
-      setTimeout(() => {
-        const loadMinify = ora("正在压缩图片");
-        CompressUtils.imageMinify();
-        loadMinify.succeed("压缩图片完成");
-      }, 0);
+    //   setTimeout(() => {
+    //     const loadMinify = ora("正在压缩图片");
+    //     CompressUtils.imageMinify();
+    //     loadMinify.succeed("压缩图片完成");
+    //   }, 0);
     });
 }

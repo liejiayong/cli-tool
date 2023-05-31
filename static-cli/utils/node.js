@@ -34,9 +34,9 @@ export function getDirname() {
     const curPath = path.join(__dirname, "../images/");
     console.log("test getAllFile", curPath, getAllFile(curPath));
  */
-export async function getAllFile(basePath) {
+export async function getAllFile(basePath,ext='') {
     const data = [];
-    
+
   if (fs.existsSync(basePath)) {
       async function recursion(basePath) {
         const files = fs.readdirSync(basePath);
@@ -45,7 +45,9 @@ export async function getAllFile(basePath) {
           curPath = path.normalize(curPath).replace(/(\\)/g, "/");
           const stat = fs.statSync(curPath);
           if (stat.isFile()) {
-            data.push(curPath);
+            const fObj = path.parse(curPath)
+            const isExt = !!~ext.indexOf(fObj.ext.slice(1))
+            isExt && data.push(curPath);
           } else if (stat.isDirectory()) {
             recursion(curPath);
           }

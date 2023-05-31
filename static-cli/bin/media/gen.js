@@ -47,12 +47,12 @@ export const getImageData = async (src, key = "", opts = {}) => {
         // get sprites coordinates
         const imageStatus = mediaTpl.normalizeImg(result.coordinates, {
           ...result.properties,
-          spriteName: "",
+          spriteDirName: "",
           spriteNameRaw: "",
           isSprite: false,
         });
 
-        // console.log("imageStatus", imageStatus);
+        // console.log("uni imageStatus", imageStatus);
 
         // output css coordinates JSON
         const cssMap = mediaTpl.getUniCssJSON(imageStatus);
@@ -65,8 +65,8 @@ export const getImageData = async (src, key = "", opts = {}) => {
           cssPath: `${cssOutputPath}${cssMap.name}${CONFIG.css.ext}`,
           cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
           cssBuffer: cssMap.json,
-          raw: result,
-          sprites: imageStatus,
+          spritesmith: result,
+          imageStatus: imageStatus,
         });
       }
     );
@@ -95,6 +95,15 @@ export const getSpriteData = async (src, key = "", opts = {}) => {
         src,
         ...params,
       },
+      /**
+       *
+       * @param {null|object} err
+       * @param {object} result
+       * @param {object} result.coordinates 雪碧图对应单图的位置宽高。如： {'C:/images/sp_test/a.jpg': {x:0,y:0,width: 100,height:100}}
+       * @param {object} result.properties 雪碧图的宽度，如： { width: 200, height: 200 }
+       * @param {Buffer} result.image 雪碧图Buffer
+       * @returns
+       */
       function handleResult(err, result) {
         if (err) {
           return reject(err);
@@ -103,24 +112,29 @@ export const getSpriteData = async (src, key = "", opts = {}) => {
         // get sprites coordinates
         const imageStatus = mediaTpl.normalizeImg(result.coordinates, {
           ...result.properties,
-          spriteName: `${CONFIG.images.spriteDir.prefix}${CONFIG.images.spriteDir.symbol}${key}`,
+          spriteDirName: `${CONFIG.images.spriteDir.prefix}${CONFIG.images.spriteDir.symbol}${key}`,
           spriteNameRaw: key,
           isSprite: true,
         });
 
+        // console.log("sprite imageStatus", imageStatus);
+
         // output css coordinates JSON
         const cssMap = mediaTpl.getSpriteCssJSON(imageStatus);
 
+        const spriteInfo = imageStatus[0]
         return resolve({
-          imageDirPath: imgOutputPath,
-          imagePath: `${imgOutputPath}${key}.png`,
+          cwd: spriteInfo.cwd,
+          imageInput: spriteInfo.inputPath,
+          imageDirPath: spriteInfo.outputDir,
+          imagePath: spriteInfo.outputPath,
           imageBuffer: result.image,
           cssDirPath: cssOutputPath,
           cssPath: `${cssOutputPath}${cssMap.name}${CONFIG.css.ext}`,
           cssOutputPath: `${cssOutputPath}${CONFIG.css.spriteName}${CONFIG.css.ext}`,
           cssBuffer: cssMap.json,
-          raw: result,
-          sprites: imageStatus.sprites,
+          spritesmith: result,
+          imageStatus: imageStatus,
         });
       }
     );
@@ -166,6 +180,7 @@ export const resetDir = async () => {
  * @Date: 2022-12-09 15:47:31
  */
 export const genCssAndFs = async (spriteResult = [], uniResult = {}) => {
+    // console.log('genCssAndFs', spriteResult, uniResult)
   // concat all sprite css json
   let cssJson = spriteResult.reduce((str, pre) => {
     return str + pre.cssBuffer;
@@ -179,18 +194,13 @@ export const genCssAndFs = async (spriteResult = [], uniResult = {}) => {
   await nodeUtils.mkDir(cssPath.cssDirPath);
   fs.writeFileSync(`${cssPath.cssOutputPath}`, cssJson);
   // output unique images file to dest
-  for (let v of uniResult.sprites) {
-    const file = v.filePath.slice(CONFIG._basePath_.inputDir.length, v.filePath.length);
-    const outputPath = path.join(CONFIG._basePath_.outputImageDir, file);
-
-    // nodeUtils.copyFileByPath(v.filePath, outputPath);
-    await nodeUtils.mkDir(path.parse(outputPath).dir);
-    fs.copyFileSync(v.filePath, outputPath);
+  for (let v of uniResult.imageStatus) {
+    await nodeUtils.mkDir(v.outputDir);
+    fs.copyFileSync(v.inputPath, v.outputPath);
   }
 
   // output sprite image to dest
   for (let sprite of spriteResult) {
-    // !fs.existsSync(sprite.imageDirPath) && fs.mkdirSync(sprite.imageDirPath);
     await nodeUtils.mkDir(sprite.imageDirPath);
     fs.writeFileSync(sprite.imagePath, sprite.imageBuffer);
   }
