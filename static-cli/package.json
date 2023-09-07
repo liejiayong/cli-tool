@@ -12,7 +12,8 @@
   "scripts": {
     "static:test": "node ./bin/index.js",
     "test": "echo test",
-    "install:gyp": "node-pre-gyp install --fallback-to-build"
+    "install:gyp": "node-pre-gyp install --fallback-to-build",
+    "install": "pnpm install --registry https://registry.npm.taobao.org --ignore-scripts"
   },
   "files": [
     "bin",
@@ -31,6 +32,7 @@
     "imagemin-pngquant": "^9.0.2",
     "imagemin-svgo": "^10.0.1",
     "inquirer": "^9.1.4",
+    "log-symbols": "^5.1.0",
     "ora": "^6.1.2",
     "postcss": "^8.4.19",
     "prettier": "2.8.1",
