@@ -16,7 +16,7 @@ const CONFIG = {
     ext: "jpg,jpeg,png,gif",
     cssUnit: "px",
     inputPath: "images",
-    outputPath: `img/`,
+    outputPath: `imgs/`,
     padding: 60,
     quality: [0.7, 0.8],
     compressExt: "png" /* jpeg,jpg,png */,

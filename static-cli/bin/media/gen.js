@@ -1,6 +1,10 @@
 import fs from "fs";
 import path from "path";
 import Spritesmith from "spritesmith";
+
+import postcss from 'postcss';
+import pxtorem from 'postcss-pxtorem';
+
 import * as nodeUtils from "../../utils/node.js";
 import * as mediaTpl from "./template.js";
 import CONFIG from "../config.js";
@@ -188,6 +192,14 @@ export const genCssAndFs = async (spriteResult = [], uniResult = {}) => {
 
   // concat all unique image css json
   cssJson += uniResult.cssBuffer;
+
+  if (CONFIG.commander.terminal !== 'pc') {
+      cssJson = postcss(pxtorem({rootValue: 100,
+        unitPrecision: 4,
+        selectorBlackList: [],
+        propList: ['*'],
+        replace: true})).process(cssJson).css
+  }
 
   // output css json
   const cssPath = getCssPath();

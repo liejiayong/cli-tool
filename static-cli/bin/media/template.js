@@ -196,8 +196,8 @@ export const getSpriteCssJSON = (sprites = []) => {
       name: v.name,
       width: v.width,
       height: v.height,
-      x: v.x,
-      y: v.y,
+      x: v.x === 0 ? 0 : -v.x,
+      y: v.y === 0 ? 0 : -v.y,
       unit: CONFIG.images.cssUnit,
     });
 
