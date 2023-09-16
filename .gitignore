@@ -1,8 +1,8 @@
 node_modules
 dist
-cachefile/*
-business-logic
-public/upload
+test
+__template__
+css
 img
-.env.db
-# build
+
+*-error.log
