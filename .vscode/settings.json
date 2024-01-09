@@ -13,12 +13,13 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true,
-    "source.fixAll.tslint": true,
-    "source.fixAll.stylelint": true
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.tslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
   },
   "prettier.enable": true,
   "prettier.prettierPath": ".",
+  //   "prettier.configPath": "none",
   "eslint.enable": true,
   "eslint.format.enable": true,
   "eslint.run": "onSave",
